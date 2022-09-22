@@ -26,7 +26,7 @@ server.use(express.static("sources/client"))
 
 server.get("/api/users", async (request, response) => {
     try {
-        // await generateLag()
+        await generateLag()
         response.json(users)
     } catch (error) {
         response.status(500).send(error)
