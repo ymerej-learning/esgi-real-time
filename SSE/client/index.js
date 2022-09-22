@@ -1,13 +1,31 @@
-const eventSource = new EventSource("http://localhost:9000");
+const usersEventSource = new EventSource("/api/users")
 
-eventSource.addEventListener("open", () => {
-    console.log("Connection open event");
-});
+usersEventSource.addEventListener("open", () => {
+    console.log("Event source connected with the server")
+})
 
-eventSource.addEventListener("error", (error) => {
-    console.log("Connection error event : ", error);
-});
+usersEventSource.addEventListener("error", error => {
+    console.error("Error with the server")
+    console.error(error)
+})
 
-eventSource.addEventListener("custom", (event) => {
-    console.log("Connection custom event");
-});
+usersEventSource.addEventListener("update", event => {
+    try {
+        const usersElement = document.getElementById("users")
+        const users = JSON.parse(event.data)
+
+        if (!usersElement) {
+            throw new Error("Users list not found")
+        }
+
+        usersElement.innerHTML = ""
+
+        users.forEach(user => {
+            const userElement = document.createElement("li")
+            userElement.innerText = `[#${user.identifier}] ${user.email}`
+            usersElement.appendChild(userElement)
+        })
+    } catch (error) {
+        console.error(error)
+    }
+})
