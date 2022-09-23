@@ -1,3 +1,7 @@
 /long_polling/node_modules
 /polling/node_modules
 /SSE/node_modules
+/socket/node_modules
+/onClick/node_modules
+/@all/node_modules
+/@target/node_modules
